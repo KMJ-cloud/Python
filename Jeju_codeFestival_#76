@@ -1,0 +1,35 @@
+# 문제 76: 안전한 땅
+# 1. 지뢰 묻힌 땅 크기(a)을 생성하고 수색범위(b)를 입력 --> a,b 둘 다 정사각형
+# 2. 20% 확률로 지뢰(1) 심기
+# 3. 수색 가능한 범위내에서 찾아낼 수 있는 가장 큰 지뢰 개수 출력
+
+import random
+import numpy as np
+
+# 한번 수색할 때 발견되는 지뢰수
+def find(StartSpot1,StartSpot2, f):  # 시작범위, f = 수색가능범위
+  cnt = 0
+  for ii in range(StartSpot1,StartSpot1+f):
+      for jj in range(StartSpot2,StartSpot2+f):
+          if city[ii][jj] == 1:
+              cnt+=1
+  return cnt
+
+bombNum = []
+a, b = map(int,input("땅 크기a, 수색범위b>>> ").split())
+city = np.eye(a)
+for i in range(a):      # 지뢰밭 도시 생성
+  for j in range(a):
+      city[i][j] = random.choice([1,0,0,0,0])
+
+print(city)
+
+while True:
+   if pow(a-b+1,2) == len(bombNum):
+       break
+
+   for x in range(a-b+1):
+       for y in range(a-b+1):
+           bombNum.append(find(x,y,b))
+
+print("수색 가능한 범위내에서 찾아낼 수 있는 가장 큰 지뢰 개수>>> ", max(bombNum))
