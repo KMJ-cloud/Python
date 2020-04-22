@@ -1,0 +1,60 @@
+# 자료구조와 어떻게 Sort되는지 이해할 수 있음
+# 재귀함수 사용
+
+# 1. Merge Sort
+def merge_sort(arr):
+    a = len(arr)
+    if a <= 1:
+        return arr
+        
+    # 리스트의 중간을 중심으로 리스트 길이가 1일때 까지 계속 Divide
+    # 왼쪽, 오른쪽 리스트에 나누어 입력(Divide)
+    mid = a//2  
+    l = merge_sort(arr[:mid])
+    r = merge_sort(arr[mid:])
+    result=[]   # 정렬된 리스트
+
+    while l and r:  # 리스트 l과 r 값이 없을 때 까지 반복
+        if l < r:   # l이 더 작으면 result에 입력(Combine)
+            result.append(l.pop(0))
+
+        else:
+            result.append(r.pop(0))
+
+    while l:
+        result.append(l.pop(0))
+
+    while r:
+        result.append(r.pop(0))
+
+    return result
+
+arr = list(map(int,input("숫자 입력>>> ").split()))
+print(arr)
+print(merge_sort(arr))
+
+
+# 2. Quick Sort
+def quick_sort(arr):
+   a = len(arr)
+   if a <= 1:
+       return arr
+
+   pivot = arr.pop(a//2)    # 리스트 arr 중간에 있는 값이 pivot값
+   lower = []
+   higher = []
+
+  # pivot보다 작으면 lower, 크면 higher 리스트에 추가
+   for i in range(a-1):
+       if arr[i] < pivot: 
+           lower.append(arr[i])
+
+       else:
+           higher.append(arr[i])
+   
+   # pivot 값과 비교해서 낮은 값과 큰 값을 재귀함수로 비교
+   return quick_sort(lower) + [pivot] + quick_sort(higher)
+
+arr = list(map(int,input("숫자 입력>>> ").split()))
+print(arr)
+print(quick_sort(arr))
