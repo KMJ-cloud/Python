@@ -1,3 +1,5 @@
+# https://www.aladin.co.kr 에서 Top 200 순위의 데이더틑 크롤링하여 파일에 따로 저장하기
+
 from selenium import webdriver
 import time
 from bs4 import BeautifulSoup
