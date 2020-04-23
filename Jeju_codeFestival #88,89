@@ -1,0 +1,95 @@
+# 움직일 수 있는 공간(0), 캐릭터(1), 벽(2)
+# 1. 벽으로 둘러싼 공간 생성
+# 2. 생성된 맵을 보고 캐릭터 위치 지정하면 장애물을 생성함
+# 3. 장애물을 피해 캐릭터를 상,하,좌,우로 이동 
+
+import numpy as np
+from random import *
+from os import system
+
+def make_map():     # Random으로 벽(2)으로 둘러진 맵생성
+   mapWidth = randint(5,10)
+   mapHeight = randint(5,10)
+
+   map = np.zeros((mapWidth,mapHeight))
+
+   for w in range(mapWidth):    # 가장자리를 벽(2)으로 만들기
+       for ww in range(mapHeight):
+           map[0][ww] = 2
+           map[mapWidth-1][ww] = 2
+       map[w][0] = 2
+       map[w][mapHeight-1] = 2
+
+   print(map)
+   # 생선된 맵을 보고 캐릭터 좌표 지정
+   c_mulit= input("캐릭터 좌표 입력>>> ").split()
+   global c1, c2
+   c1 = int(c_mulit[0])
+   c2 = int(c_mulit[1])
+
+   # print(type(c1))
+   # print(type(c2))
+
+   map[c1,c2] = 1
+   # system('cls')
+   print('\n'*10)
+
+   cnt = 0
+   while True:     # 캐릭터 위치를 피해서 장애물 만들기
+       obstacleWidth = randint(1, mapWidth - 1)
+       obstacleHieght = randint(1, mapHeight - 1)
+       if map[obstacleWidth][obstacleHieght] == 0:
+           map[obstacleWidth][obstacleHieght] = 2
+           cnt+=1
+
+       if cnt > ((mapWidth-1)*(mapHeight-1))*0.2:  # 이동가능한 맵넓이의 20%가 장애물
+           break
+
+   return map
+
+def moving(m):
+   print()
+
+gameMap = make_map()
+
+while True:         # 캐릭터 무빙시키기
+   print(gameMap)
+   directionKey = {'Up':1,'Down':2,'Left':3,'Right':4}
+   print("방향키>>> ", directionKey)
+   direction = input("방향 입력: ")
+   if directionKey[direction] == 1 :
+       if gameMap[c1-1][c2] == 2:
+           print("장애물!")
+           continue
+       gameMap[c1][c2] = 0
+       c1 = c1-1
+       gameMap[c1][c2] = 1
+
+   elif directionKey[direction] == 2:
+       if gameMap[c1+1][c2] == 2:
+           print("장애물!")
+           continue
+       gameMap[c1][c2] = 0
+       c1 = c1 +1
+       gameMap[c1][c2] = 1
+
+
+   elif directionKey[direction] == 3:
+       if gameMap[c1][c2-1] == 2:
+           print("장애물!")
+           continue
+       gameMap[c1][c2] = 0
+       c2 = c2 - 1
+       gameMap[c1][c2] = 1
+
+   elif directionKey[direction] == 4:
+       if gameMap[c1][c2+1] == 2:
+           print("장애물!")
+           continue
+       gameMap[c1][c2] = 0
+       c2 = c2 + 1
+       gameMap[c1][c2] = 1
+
+   else:
+       print("게임종료")
+       break
