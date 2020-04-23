@@ -7,7 +7,7 @@ import random
 import numpy as np
 
 # 한번 수색할 때 발견되는 지뢰수
-def find(StartSpot1,StartSpot2, f):  # 시작범위, f = 수색가능범위
+def find(StartSpot1,StartSpot2, f):  # StartSpot: 시작범위, f = 수색범위
   cnt = 0
   for ii in range(StartSpot1,StartSpot1+f):
       for jj in range(StartSpot2,StartSpot2+f):
@@ -17,8 +17,8 @@ def find(StartSpot1,StartSpot2, f):  # 시작범위, f = 수색가능범위
 
 bombNum = []
 a, b = map(int,input("땅 크기a, 수색범위b>>> ").split())
-city = np.eye(a)
-for i in range(a):      # 지뢰밭 도시 생성
+city = np.zeros((a,a))      # 지뢰밭 도시 생성
+for i in range(a):          # 20% 확률로 지뢰심기
   for j in range(a):
       city[i][j] = random.choice([1,0,0,0,0])
 
