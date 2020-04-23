@@ -1,0 +1,35 @@
+# 배고픈 기린을 친구들이 오기전에 주문해서 먼저 먹기로 한다.
+# 그냥 먹긴 심심한 기린은 자신 앞에 있는 접시를 먹는 것으로 시작해서 K번째 음식을 먹고
+# 나중에 오는 친구들을 위해 2개의 접시를 남겨야함
+
+N, K = map(int,input(">>> ").split())   # N: 접시의 개수, K: 뜀뛰기 수
+
+dish=[]
+for i in range(1,N+1):
+  dish.append(i)
+
+dish.remove(1)
+print(dish)
+
+cnt = K -1
+while True:
+   if len(dish) == 2:      # 접시가 두개 남으면 break
+       break
+
+   elif len(dish) > cnt or len(dish[cnt:])-1 > cnt:     # ex) N = 10    K = 3    # 뜀뛰기보다 접시 갯수가 많을 때
+       dish.pop(cnt)
+       cnt = cnt + K-1
+
+
+   else:       # ex) dish = 5      K = 10
+       if len(dish)-1 == cnt:    # len(dish) == K ,
+           dish.pop()
+           cnt = 2
+
+       else:
+           cnt = cnt - K + 1
+           cnt = K - len(dish[cnt:])-1
+           dish.pop(cnt)
+           cnt = cnt + K - 1
+
+print(dish)
